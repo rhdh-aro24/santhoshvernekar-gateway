@@ -1,0 +1,68 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: santhoshvernekar-poi-gateway-app-dev
+  annotations:
+    argocd/app-name: santhoshvernekar-poi-gateway-app-dev
+    backstage.io/kubernetes-id: santhoshvernekar-poi-gateway-app
+    backstage.io/kubernetes-namespace: santhoshvernekar
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-aro24/santhoshvernekar-gateway
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.kovj5vhc.eastus.aroapp.io/dev-pipelines/ns/santhoshvernekar/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.kovj5vhc.eastus.aroapp.io/k8s/ns/santhoshvernekar/deployments/santhoshvernekar-poi-gateway-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.kovj5vhc.eastus.aroapp.io/#https://github.com/rhdh-aro24/santhoshvernekar-gateway?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:santhoshvernekar"
+  system: workshop-system-santhoshvernekar
+  providesApis:
+    - gateway-api-santhoshvernekar
+  consumesApis:
+    - backend-api-santhoshvernekar
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-santhoshvernekar
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:santhoshvernekar"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: gateway-api-santhoshvernekar
+  description: API surface exposed to interact with Backends (summit POIs + parks data) via the Gateway
+  links:
+    - url: https://santhoshvernekar-poi-gateway-app-santhoshvernekar.apps.kovj5vhc.eastus.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-aro24/santhoshvernekar-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:santhoshvernekar"
+  system: workshop-system-santhoshvernekar
+  definition:
+    $text: https://github.com/rhdh-aro24/santhoshvernekar-gateway/tree/main/src/main/resources/META-INF/openapi.yaml
